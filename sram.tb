@@ -1,0 +1,50 @@
+`timescale 1ns / 1ps
+
+module test_SRAM;
+
+    reg clk;
+    reg we;
+    reg [3:0] address;
+    reg [3:0] write_in;
+    wire [3:0] data_out;
+
+    SRAM uut (
+        .clk(clk),
+        .we(we),
+        .address(address),
+        .write_in(write_in),
+        .data_out(data_out)
+    );
+
+    always #5 clk = ~clk;
+
+    initial begin
+    
+        clk = 0;
+        we = 0;
+        address = 0;
+        write_in = 0;
+
+        #10;
+
+
+        we = 1; address = 4'd3; write_in = 4'b1010;
+        #10;
+
+
+        we = 1; address = 4'd5; write_in = 4'b1100;
+        #10;
+
+
+        we = 0; address = 4'd3;
+        #10;
+
+
+        we = 0; address = 4'd5;
+        #10;
+
+        // Finish simulation
+        $finish;
+    end
+
+endmodule
